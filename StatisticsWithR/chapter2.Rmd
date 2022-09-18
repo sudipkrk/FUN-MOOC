@@ -8,7 +8,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "D:/mooc")
+knitr::opts_knit$set(root.dir = "C:/Users/lol/Desktop/Sudip/git/FUN-MOOC/StatisticsWithR")
 ```
 
 For many stats users, the more complicated the statistic tool, the stronger they are and the more likely they are to extract the substantial marrow from their dataset. In reality, experience proves that it is almost the opposite. The simpler a statistical method, the more effective it is because everyone understands the results. In the end, the simplest is the graphic representations and that is why this second lesson is particularly important. The only downside to graphical methods is that they take up a lot of space.
@@ -41,7 +41,7 @@ and then 3 variables relating to his personality:
 You set the working directory using the `setwd()` statement:
 
 ```{r}
-setwd("D:/mooc")
+setwd("C:/Users/lol/Desktop/Sudip/git/FUN-MOOC/StatisticsWithR")
 ```
 
 You import the csv file using the `read.csv2()` statement:
@@ -156,7 +156,7 @@ Sometimes, it is the temporal evolution of the distribution of a quantitative ra
 So we are not going to be able to use the mental health in prison file because it is a cross-sectional study over a given time, so we cannot graphically represent changes over time. For this, exceptionally, we are going to use another data file. These are depressed patients, hospitalized for depression and who are treated and followed for a few weeks.
 
 ```{r}
-repdat <-read.csv2("tools_hdrs.csv")
+repdat <-read.csv2("outils_hdrs.csv")
 str(repdat)
 ```
 
@@ -197,7 +197,7 @@ The corresponding function is the `interaction.plot()` function. Its syntax is v
 The `lty=1` statements correspond to the fact that we want continuous straight lines and `legend` indicates the legend.
 
 ```{r}
-interaction.plot(repdat$VISIT,repdat$NUMBER,repdat$HDRS,lty=1,legend=FALSE)
+interaction.plot(repdat$VISIT,repdat$NUMRO,repdat$HDRS,lty=1,legend=FALSE)
 ```
 
 At the end of this course,
