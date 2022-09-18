@@ -34,3 +34,11 @@ str(repdat)
 plotmeans(repdat$HDRS~repdat$VISIT,gap=0,barcol="black")
 
 interaction.plot(repdat$VISIT,repdat$NUMRO,repdat$HDRS,lty=1,legend=FALSE)
+
+
+################################################################################
+####################### Chapter 4: describe function ###########################
+################################################################################
+
+describe(smp.c) 
+describe (repdat)
