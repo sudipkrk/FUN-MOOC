@@ -4,9 +4,11 @@
 
 smp <- read.csv2("smp2.csv")
 
-View(smp)
+View(smp)       #view the data
 
-names(smp)
+# get the name of the variables 
+names(smp)  
+
 
 str(smp)
 

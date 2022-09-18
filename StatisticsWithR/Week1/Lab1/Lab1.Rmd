@@ -5,26 +5,280 @@ date: "9/18/2022"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+---
+title: "Lab 1 Introduction to R studio, manipulation of files and variables"
+output:
+  html_document: default
+  html_notebook: default
+  pdf_document: default
+---
+
+In this first session, we will focus on the basic language therefore:
+
+- how to import data, saved for example in an Excel file?
+- how to manipulate numeric type variables and categorical type variables?
+
+For the duration of these sessions, we will create a file or we will assume that you have created a directory called `mooc` in which you have saved the file `smp2.csv` which you can find for download on the course website. It is a tabulated file which was, for example, generated from Excel and which includes variables in columns and observations in rows.
+
+What we will do first is define this directory as the working directory.
+
+```{r "setup", include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "C:/Users/lol/Desktop/Sudip/git/FUN-MOOC/StatisticsWithR/Week1/Lab1")
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r, eval=FALSE}
+setwd("D:/mooc")
 ```
 
-## Including Plots
+and load the file by typing the command `read.csv2()`. We will associate this file with a variable that we will call `smp` and we will always use this variable name for all labs. So here we will simply type the beginning of the file name and hit the `tab` key which automatically completes file names or command names.
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+smp <- read.csv2("smp2.csv")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Data can be viewed directly using the internal viewer.
+
+```{r, eval=FALSE}
+View(smp)
+```
+
+To access the variable names, we use the `names()` command and R will return the name of all the variables that are contained in the data frame.
+
+```{r}
+names(smp)
+```
+
+You can also use the `str()` command which allows you to display the number of observations and variables, and for each variable, its mode of representation.
+
+```{r}
+str(smp)
+```
+
+We see that the `smp` variable, which is called a *data frame* in R, includes 799 observations and 26 variables.
+
+The `age` variable is a quantitative variable, so contains numbers, and the profession is a qualitative variable that R calls the *factor* type with 8 levels. We usually have access to an overview of the first observations.
+
+We can also use the `summary()` command which will provide us with a univariate numerical summary for each of the variables (for numerical variables: indicators of central tendency, dispersion and extent and for qualitative variables: a table of workforce associated with each of the methods).
+
+```{r}
+summary(smp)
+```
+
+We see for example that:
+
+- the `age` variable is a numeric variable,
+- the `prof` variable is a categorical variable
+- and the `abus` variable is a binary variable but R, here, treated it as a numeric variable; we'll come back to that right after.
+
+The `summary()` command also works for variables directly and not just for data frames. To access a variable in R, type the name of the data frame followed by `dollar` and followed by the name of the variable that interests us.
+
+```{r}
+summary(smp$age)
+```
+
+So here, the `summary()` command is applied directly to the `age` variable. The minimum is 19, the maximum is 83 and here we have two missing values ​​which are represented by the symbol `NA`.
+
+We can very well type `smp$age` directly but in these cases, R will send us all the observations, which is not always very practical.
+
+```{r}
+smp$age
+```
+
+On the other hand, it is possible to display only the first observation. In these cases, we will put in square brackets the observation number which interests us. Here the first observation.
+
+```{r}
+smp$age[1]
+```
+
+we can verify that it is indeed an age of 31.
+
+One can also indicate 1:10, that is to say from the first to the tenth observation. Note here that it is not always necessary to systematically retype the commands. By using the “up” and “down” arrows, you can navigate through the command history.
+
+```{r}
+smp$age[1:10]
+```
+
+We can for example look for the minimum value for the age
+
+```{r}
+min(smp$age)
+```
+
+and we finally realize that R will return the value `NA`.
+
+Why ? So just go look at the help, using the `help()` command, and type the name of the command that interests us.
+
+```{r, eval=FALSE}
+help(min)
+```
+
+We notice that when R calculates the minimum, it does not remove the missing values. In these cases, it will return an `NA` value to say that it cannot calculate the minimum age.
+
+On the other hand, we can specify that, to calculate the minimum value, we want to remove the missing values, by adding the option `na.rm=TRUE`.
+
+```{r}
+min(smp$age, na.rm=TRUE)
+```
+
+If we are now interested in the variable `abus`, we can look for example at the first values ​​of the variable `abus`.
+
+```{r}
+smp$abus[1:10]
+```
+We see that we have values ​​in 0 and 1.
+
+You can also use the `unique()` command to list all the unique modalities that are observed for this variable.
+
+```{r}
+unique(smp$abus)
+```
+
+Moreover, rather than typing `smp$abus[1:10]` directly, you can very well use the `head()` command, with smp and indicate that you want to display the first ten values.
+
+```{r}
+head(smp$abus, n=10)
+```
+
+So we have a variable, `abus`, which is contained in the `smp` data frame. The total number of observations is obtained with the command `length()` for example.
+
+```{r}
+length(smp$abus)
+```
+
+This roughly corresponds to the number of rows in our `smp` table.
+
+```{r}
+new(smp)
+```
+
+We can use the `table()` command which will return the table of frequencies associated with each of the modalities.
+
+```{r}
+table(smp$abus)
+```
+
+However, we see here that one of the modalities that had been listed is the value `NA`, which suggests that there are missing values ​​for our variable `smp$abus`. So, when using the `table()` command, we will always use `useNA="always"` as an option to be sure to display missing values.
+
+```{r}
+table(smp$abus, useNA="always")
+```
+
+Here, R lists us 7 missing values ​​for this variable.
+
+The variable here is always treated as a numeric variable. Moreover if we do `summary(smp$abus)`
+
+```{r}
+summary(smp$abus)
+```
+
+we do have a summary with the other scope indicators.
+
+Often we would prefer that this variable be treated as a qualitative variable and for that, we will use the `factor()` command. So, when we look at the first observations, we will just replace our variable using the `factor()` command.
+
+```{r}
+head(smp$abus)
+```
+
+```{r}
+head(factor(smp$abus))
+```
+
+What will change: R does not change the values ​​of the variable but it will associate levels and here the levels are `0` and `1`.
+
+So what we're going to do is, for example, create a new variable and say that it's the `smp$abus` variable but treated as a factor. What must be added on the other hand, is that we will specify to him that the levels he has associated, therefore `0` and `1`, will be associated with the labels `no` and `yes`.
+
+```{r}
+abuse <- factor(smp$abus, levels=c(0,1), labels=c("No","Yes"))
+```
+
+So the `abus` variable was created in the workspace; it is separate, distinct, from the data frame
+
+```{r}
+table(abuse)
+```
+
+and we now see that our variable therefore has the `no` and `yes` modalities which have been associated with the `0` and `1` levels. You can always list the missing values ​​separately.
+
+```{r}
+table(abuse, useNA="always")
+```
+
+Let's now look at another qualitative variable, for example the number of children. The number of children that was reported by the respondents. So if we look at the first observations of this variable, we see that we have numerical values.
+
+```{r}
+head(smp$n.child)
+```
+
+Besides, we can use `summary()` and check that R considers that this variable is a numeric variable.
+
+```{r}
+summary(smp$n.child)
+```
+
+But now let's actually look at the distribution of the workforce:
+
+```{r}
+table(smp$n.child)
+```
+
+we see that the minimum number of children is `0` and the maximum number of children is `13`. This is what we had in the previous numerical summary.
+
+And we can also look at the number of children who are greater than `4` for example.
+
+```{r}
+table(smp$n.child > 4)
+```
+
+So we have 58 values ​​that meet the condition “the number of children is greater than 4”, which globally corresponds to all of these values. So what we could very well do is create a new "number of children" variable that we will call "cat", which is in fact our "number of children" variable treated this time as a postman
+
+```{r}
+smp$n.child.cat <- factor(smp$n.child)
+```
+
+and for which we will simply draw up a staffing table.
+
+```{r}
+table(smp$n.child.cat)
+```
+
+This time we can verify that the variable has many levels associated with it. So here I took the value `n.child`, it should take the value `n.child.cat`.
+
+```{r}
+levels(smp$n.child.cat)
+```
+
+So we have 13 levels that have been associated. You can also check the number of levels with the command `nlevels()`.
+
+```{r}
+nlevels(smp$n.child.cat)
+```
+
+Suppose now that we want to aggregate the last levels; we will simply repeat the `levels()` instruction and we will indicate that for levels ranging from 6 to 13, we will consider that it is a single modality which is called `5+`.
+
+```{r}
+levels(smp$n.child.cat)[6:13] <- "5+"
+```
+
+If now we straighten a table of frequencies of our new variable (if we press the “tab” key we have two possible choices, so we will take `n.child.cat`)
+
+```{r}
+table(smp$n.child.cat)
+```
+
+we can clearly see that the numbers here have been aggregated in the same class, so that corresponds to all these numbers. You can do exactly the same thing with a numeric variable as indicated in the tutorial in pdf version for this lab (labs.pdf file).
+
+Now we will simply save our `smp` data file in R format (we see that we have a `n.child.cat` variable that has been added to this file) using the `save()` command. We will give it the name of the data frame followed by the name of the file. We will call it `smp_v1.rda`:
+
+```{r}
+save(smp, file="smp_v1.rda")
+```
+
+and we can check that in our working directory, we have a `smp_v1.rda` file that has been created.
+
+We can do the same thing with the history (here R automatically saves all the commands we type) and for that we will use the command `savehistory()` and we will simply give the name of a file, which we will call here `commands.R`.
+
+```{r, eval=FALSE}
+# only in Rgui and Rterm Calls
+savehistory("commandsR")
+```
