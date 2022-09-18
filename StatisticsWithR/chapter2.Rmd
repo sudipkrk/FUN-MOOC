@@ -1,0 +1,210 @@
+---
+title: "Chapter 2 - Graphical representations"
+output:
+  html_document: default
+  html_notebook: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "D:/mooc")
+```
+
+For many stats users, the more complicated the statistic tool, the stronger they are and the more likely they are to extract the substantial marrow from their dataset. In reality, experience proves that it is almost the opposite. The simpler a statistical method, the more effective it is because everyone understands the results. In the end, the simplest is the graphic representations and that is why this second lesson is particularly important. The only downside to graphical methods is that they take up a lot of space.
+
+We will successively see in this course how to graphically represent the distribution of *qualitative* variables then of *quantitative* variables. We will see more precisely:
+
+- bar charts,
+- pie charts,
+- histograms,
+- boxplots,
+- Cartesian diagrams,
+- bundle diagrams.
+
+To begin, let's get acquainted with the smp file that we will use in the rest of the course.
+
+This file relates to the mental health in prison study, carried out in 2004 and financed by the Ministry of Justice and the Ministry of Health. This study focused on 799 male inmates randomly selected from prisons in mainland France. Here we have an extract of 9 variables with:
+
+- age
+- the prisoner's profession
+- the existence of a diagnosis of depression, schizophrenia, made by 2 clinicians, it is a consensual diagnosis
+- the possible level of seriousness of the prisoner's pathology, here also consensual seriousness
+- the number of children of the detainee
+
+and then 3 variables relating to his personality:
+
+- the level of sensation seeking (rs)
+- the danger avoidance level (ed)
+- the level of reward dependence (dr)
+
+You set the working directory using the `setwd()` statement:
+
+```{r}
+setwd("D:/mooc")
+```
+
+You import the csv file using the `read.csv2()` statement:
+
+```{r}
+smp.c <- read.csv2("smp1.csv")
+```
+
+The next thing to do is of course to check the content of the file you imported.
+
+The simplest solution is surely to use the statement `str(the-name-of-the-file)` which describes its content, the number of subjects, the number of variables, the title of the variables and the content of the first values:
+
+```{r}
+str(smp.c)
+```
+
+A classic way to represent the distribution of a qualitative random variable is to use a bar chart.
+
+With R, you have to use the `barplot()` and `table()` functions:
+
+`table()` will calculate the number of inmates with each profession:
+
+```{r}
+table(smp.c$prof)
+```
+
+and `barplot()` will represent bars having as height the number of these prisoners:
+
+```{r}
+barplot(table(smp.c$prof))
+```
+
+Another great classic for graphically representing the distribution of a categorical random variable is to use a pie chart.
+
+With R, we use the functions pie() and table(), "pie" meaning in English "pie".
+
+```{r}
+pie(table(smp.c$prof))
+```
+
+Some statisticians are reluctant to use these pie charts: indeed, it would seem that the human eye has difficulty intuitively perceiving the surface ratios between sectors of a circle, i.e. between slices of pie , or Camembert slices. Whereas, on the contrary, the human eye would be able to intuitively perceive differences in the height of bars in a bar chart. In practice, the representations in pie chart have a certain utility when one is interested in the part which represents a given profession compared to the whole of the prisoners. Indeed, each sector can be compared to the total area of ​​the circle, or of the disc. On the contrary, with a bar diagram, it would be necessary to have a bar which corresponds to the whole of the studied workforce,
+
+The great classic for representing the distribution of a continuous quantitative random variable is the histogram. For a discrete quantitative random variable, it is better to use a bar chart. The difference between the two is that with the histogram, the bars are contiguous to clearly show that there is continuity in the values ​​of the variable. The only slightly tricky theoretical point with a histogram is how to determine the number of bars. In practice with R, it's automatic and 99 times out of 100 it works very well. The instruction is very simple, it is the `hist(variable)` function.
+
+```{r}
+hist(smp.c$age)
+```
+
+We can be a little disappointed with the graphic aspect, in particular because the bars are not greyed out.
+
+For this, it is possible to add instructions to the `hist()` function, for example `col="grey"` to have gray bars, and then we can decide to change the title of the graph and to change the legend of the x axis as here: we removed the title of the graph with `main=""` so there is no title, and then the `xlab` instruction allows to determine the legend of the axis x's.
+
+```{r}
+hist(smp.c$age,col="grey",main="",xlab="hee")
+```
+
+Another more synthetic way to graphically represent the distribution of a quantitative random variable is to use a boxplot. The R instruction is very simple, it is the `boxplot()` function. It is enough just after to indicate the variable, here the age of the file smp.c and then I added `xlab` to clearly indicate in legend that it is about the variable age.
+
+```{r}
+boxplot(smp.c$age,xlab="age")
+```
+
+A boxplot is interpreted as follows:
+
+- inside the box you have 50% of the data,
+- then you have an upper mustache,
+- and between the upper edge of the box and the upper whisker, you have 25% of the data,
+- and between the bottom edge of the box and the bottom whisker you also have 25% of the data.
+
+So what I'm actually saying is a bit wrong.
+
+If it was true,
+
+- the upper whisker should correspond to the maximum of the data
+- and mustache lower than minimum
+- and yet you see on this graph, in the form of circles, some extreme values ​​that are often called "outlayers".
+
+In reality, defining the top whisker of a boxplot is horribly complicated.  
+This is the min(max of the data, 1.5 standard deviations above the top edge of the box).  
+It's completely incomprehensible and no one remembers it.
+
+Box plots are really useful for graphing the distribution of a quantitative variable according to subgroups. For example, one might ask: "Is the age distribution the same depending on whether one has a 'low', 'medium' or 'high' level of sensation seeking?". This is what we have done on the present chart.
+
+The R instruction is as simple as before, it's `boxplot()` and it is enough next to the age variable to put a tilde (~) that we obtain from the Alt Gr 2 keys and then the variable which determines the subgroups that we want to represent, here the sensation seeking variable.
+
+```{r}
+boxplot(smp.c$age~smp.c$rs,ylab="age",xlab="Sensation research")
+```
+
+We observe here that, overall, the age distribution is slightly higher when we have a low level of sensation, rather than when we have a high level of sensation.
+
+To graphically represent the joint distribution of two quantitative random variables using a traditional x/y graph or Cartesian graph, it is necessary to use the `plot()` function with on the one hand the variable that will be along the x axis, and on the other hand the variable that there will be along the y axis.
+
+```{r}
+plot(smp.c$age,smp.c$n.child)
+```
+
+In the present case, we have represented the distribution of age and number of children and quite logically, the older an inmate, the more he has on average a high number of children.
+
+We may be surprised on this graph by the fact that there do not seem to be 800 points corresponding to the 799 prisoners, and this is naturally explained: it is that 2 prisoners each aged 50 and 2 children will have a point located exactly at the same location. It's not embarrassing in itself, but it can be a little misleading. One may have the impression that there are fewer subjects than there really are.
+
+One way to get out of this faux pas is to randomly move each dot slightly so that they stick out from each other. The corresponding statement is the `jitter()` function.
+
+```{r}
+plot(jitter(smp.c$age),jitter(smp.c$n.child))
+```
+
+Here we see `plot(jitter(age), jitter(n.child))` and we have a nicer plot to look at where this time there are indeed 799 points.
+
+Sometimes, it is the temporal evolution of the distribution of a quantitative random variable that we want to represent. The corresponding diagram is called time diagram or sometimes even temperature diagram.
+
+So we are not going to be able to use the mental health in prison file because it is a cross-sectional study over a given time, so we cannot graphically represent changes over time. For this, exceptionally, we are going to use another data file. These are depressed patients, hospitalized for depression and who are treated and followed for a few weeks.
+
+```{r}
+repdat <-read.csv2("tools_hdrs.csv")
+str(repdat)
+```
+
+The instruction which makes it possible to graphically represent the evolution of the depression score - here it is the hdrs score for "hamilton depressive rating scale" - this instruction is the `plotmeans()` function. The `plotmeans()` function is not part of the standard baggage of R, it is part of the gplots library.
+
+To be able to use it, you must first install the gplots package. For this, once you open R, you have to go to the packages menu and you click on Install packages, and there you will choose the mirror site of R, then you will click on gplots and it will be downloaded. You only need to do this once.
+
+So here we call the `gplots` library and then after we call the `plotmeans()` function with simply
+
+- the variable to represent, here the HDRS variable,
+- a tilde (~),
+- and then the variable that represents the time, here the VISIT variable.
+
+The `gap` and `barcol` statements are only there to make the graphical representation more pleasing to the eye.
+
+```{r}
+library(gplots)
+```
+
+***NB:*** *This warning is normal: it only indicates that the `lowess()` function has been redefined.*
+
+```{r}
+plotmeans(repdat$HDRS~repdat$VISIT,gap=0,barcol="black")
+```
+
+***NB:*** *The `plotmeans()` function has evolved since the first MOOC session and the `plotmeans(repdat$HDRS~repdat$VISIT,gap=0,barcol="black")` command produces a warning `"gap" is not a graphical parameter` but the results are as expected.*
+
+We see in the drawing that the symptomatic state of the patients gradually improves over time.
+
+Rather than representing the average evolution of subjects over time, it may be interesting to represent the evolution of each subject. Of course, with several hundred individuals in a dataset, the whole thing can get a bit cluttered. Nevertheless, it gives an interesting impression of the variability of the evolution from one subject to another.
+
+The corresponding function is the `interaction.plot()` function. Its syntax is very simple:
+
+- you first use the time variable as a variable, here the VISIT variable,
+- then the variable that indicates each subject, here the variable NUMBER,
+- then the variable you want to represent, here the HDRS depression score.
+
+The `lty=1` statements correspond to the fact that we want continuous straight lines and `legend` indicates the legend.
+
+```{r}
+interaction.plot(repdat$VISIT,repdat$NUMBER,repdat$HDRS,lty=1,legend=FALSE)
+```
+
+At the end of this course,
+
+- you now know how to graphically represent the distribution of a qualitative variable using bar plots with the `barplot()` function, using pie charts using the `pie()` function,
+- you know how to represent a quantitative variable with histograms and the `hist()` function and box plots with the `boxplot()` function,
+- you know how to jointly represent the distribution of 2 random variables with x/y diagrams with the `plot()` function,
+- and finally, you know how to represent the evolution of a variable over time using the `plotmeans()` function or the `interaction.plot()` function.
+
+What I suggest to you now is to take a break, open your computer, launch R and run all these syntaxes again to find the same results.
