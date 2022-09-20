@@ -61,6 +61,17 @@ ss<-hsd %>%
 ss%>%
   describe( na.rm = T, interp= T, skew = F, range = T)
 
+
+# The code below does not give the desired answer for question number 2
+fxn<- function(x)
+  {
+  c(n= length(x), min= min(x,na.rm = T), max= max(x,na.rm = T), mean= mean(x,na.rm = T), 
+    median = median(x,na.rm = T),standard_dev= sd(x,na.rm = T))
+}
+
+#
+sapply(ss, FUN=fxn)
+
 ss%>%
   summarise(across(where(is.numeric),                 
                     .fns = list(
