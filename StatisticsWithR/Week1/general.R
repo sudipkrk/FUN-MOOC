@@ -9,9 +9,13 @@ setwd ("C:/Users/lol/Desktop/Sudip/git/FUN-MOOC/StatisticsWithR")
 ######################################################################
 install.packages("ggplot2")
 install.packages("tidyverse")
+install.packages("dplyr")
+install.packages ("psych")
 
 ######################################################################
 ####################### load the library #############################
 ######################################################################
 library("ggplot2")
 library("tidyverse")
+library(dplyr)
+library(psych)

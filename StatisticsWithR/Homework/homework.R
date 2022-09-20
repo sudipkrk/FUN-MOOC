@@ -59,6 +59,9 @@ ss<-hsd %>%
   select(1,3,5:6,8:9)
 
 ss%>%
+  describe( na.rm = T, interp= T, skew = F, range = T)
+
+ss%>%
   summarise(across(where(is.numeric),                 
                     .fns = list(
                      Mean = mean (.ss, na.rm = TRUE),
