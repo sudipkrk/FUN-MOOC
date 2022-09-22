@@ -11,6 +11,7 @@ install.packages("ggplot2")
 install.packages("tidyverse")
 install.packages("dplyr")
 install.packages ("psych")
+install.packages ("prettyR")
 
 ######################################################################
 ####################### load the library #############################
@@ -19,3 +20,4 @@ library("ggplot2")
 library("tidyverse")
 library(dplyr)
 library(psych)
+library(prettyR)
