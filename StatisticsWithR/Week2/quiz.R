@@ -40,6 +40,13 @@ mean(smp[smp$suicide.past == 1, "dur.interv"], na.rm = TRUE)
 
 
 #7
-> summary(smp$age)
-> smp$age.cat <- cut(smp$age, breaks = c(19, 28, 37, 48, 83),include.lowest = TRUE)
-> table(smp$age.cat)
+summary(smp$age)
+smp$age.cat <- cut(smp$age, breaks = c(19, 28, 37, 48, 83),include.lowest = TRUE)
+table(smp$age.cat)
+
+
+
+#################################################################################
+########################### Optional quiz #######################################
+#################################################################################
+
