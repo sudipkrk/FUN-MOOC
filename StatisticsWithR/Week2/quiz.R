@@ -50,3 +50,26 @@ table(smp$age.cat)
 ########################### Optional quiz #######################################
 #################################################################################
 
+#1. We assume that we have a numeric variable x, with no missing data, whose distribution
+# we wish to represent in the form of a frequency histogram made up of 6 classes of
+# intervals. What command can we use?
+
+hist(smp$age, breaks = 6)
+
+#3.
+summary(smp[c(20, 221, 342, 446, 531),])
+
+is.na(smp[c(20, 221, 342, 446, 531),])
+
+#4 
+round(prop.table(table(smp$prof,useNA="always"))*100,2)
+table(smp$prof)
+length(smp$prof)
+round(prop.table(table(smp$prof, useNA = 'always'))*100,2)
+222*100/799
+
+#5
+nrow(smp[smp$age>=20 & smp$age<=30,])
+n<- subset(smp, age>=20 & age<=30)
+nrow(n)
+
