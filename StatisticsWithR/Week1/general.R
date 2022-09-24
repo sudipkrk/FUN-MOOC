@@ -12,6 +12,7 @@ install.packages("tidyverse")
 install.packages("dplyr")
 install.packages ("psych")
 install.packages ("prettyR")
+install.packages("readr")
 
 ######################################################################
 ####################### load the library #############################
@@ -21,3 +22,5 @@ library("tidyverse")
 library(dplyr)
 library(psych)
 library(prettyR)
+library(knitr)
+library(readr)

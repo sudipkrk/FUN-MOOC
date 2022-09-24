@@ -6,8 +6,8 @@ output: html_document
 Analyse des données sur la santé mentale en prison
 
 ```{r, echo=FALSE}
-setwd("~/mooc")
-smp <- read.csv2("smp2.csv")
+setwd("C:/Users/lol/Desktop/Sudip/git/FUN-MOOC/StatisticsWithR")
+smp <- read.csv2("data/smp2.csv")
 ```
 
 Description des données :
