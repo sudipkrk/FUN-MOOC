@@ -1,0 +1,32 @@
+---
+title: "Exemple d'analyse"
+output: html_document
+---
+
+Analyse des données sur la santé mentale en prison
+
+```{r, echo=FALSE}
+setwd("~/mooc")
+smp <- read.csv2("smp2.csv")
+```
+
+Description des données :
+
+```{r, eval=c(1,3)}
+names(smp)
+str(smp)
+summary(smp)
+```
+
+Distribution des effectifs pour la variable `n.enfant`.
+
+```{r, echo=FALSE}
+smp$n.enfant.cat <- factor(smp$n.enfant)
+levels(smp$n.enfant.cat)[6:13] <- "5+"
+```
+
+```{r, echo=FALSE}
+barplot(prop.table(table(smp$n.enfant.cat)) * 100, ylim=c(0,30), las=1)
+```
+
+
