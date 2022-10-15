@@ -152,3 +152,49 @@ with(hsd, tapply(score.relation, sexe, sd, na.rm= TRUE))
 
 # t-test 
 t.test(hsd$score.relation~ hsd$sexe, var.equal= TRUE)
+
+
+
+################################################################################
+###################### Homework: Last Week #####################################
+################################################################################
+hsd<- read.csv2("data/satisfaction_hopital.csv")
+
+# recode categorical variables
+hsd$pro_cat <- factor(hsd$profession,
+                              labels=c("agriculteur","artisan"
+                                       ,"cadre","intermédiaire"
+                                       ,"employé","ouvrier"
+                                       ,"sans emploi","autre"))
+hsd$ser_cat <- factor(hsd$service,
+                           labels=c("1","2","3","4","5","6","7","8"))
+
+# Question 1: linear regression model
+
+model <- lm(score.relation~ age+sexe+score.information
+          +amelioration.sante + amelioration.moral
+          + pro_cat + ser_cat, data=hsd)
+# compare all the possible model by dropping the single model term
+drop1(model,.~.,test="F")
+
+summary(model)
+
+# check the validity of the model
+# diagnostic plot the model
+plot(model)
+# plot the histogram for residual
+hist(resid(model), col= "gray")
+
+
+# Question 2:
+# recode the variable 
+hsd$reco_cat <- ifelse(hsd$recommander>1,1,0)
+
+# tabluate the variable created
+table(hsd$recommander, hsd$reco_cat, deparse.level=2, useNA="always")
+
+# Logistic regression model
+model1 <- glm(reco_cat~ age+sexe+score.information+amelioration.sante
+            + amelioration.moral + pro_cat + ser_cat,
+            data=hsd, family="binomial")
+drop1(model,.~.,test="Chisq")
